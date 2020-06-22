@@ -1,0 +1,79 @@
+<!--
+/* Preço de Veículo - https://precodeveiculo.netlify.app
+ * https://github.com/wgenial/precodeveiculo
+ * Developed by WGenial - http://wgenial.com.br
+ */
+-->
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="WGenial">
+  <meta name="description" content="Consultar preços médios de veículos diretamente na FIPE.">
+
+  <meta property="og:image"
+    content="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/237/automobile_1f697.png">
+  <meta property="og:description" content="Consultar preços médios de veículos diretamente na FIPE.">
+  <meta property="og:title" content="Preço de Veículo">
+
+  <meta name="twitter:title" content="Preço de Veículo">
+
+  <link rel="shortcut icon"
+    href="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/237/automobile_1f697.png">
+
+  <title>Preço de Veículo</title>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script defer src="app.js"></script>
+</head>
+
+<body>
+  <h1>Preço de Veículo</h1>
+  <p>Consultar preços médios de veículos diretamente na FIPE.</p>
+  <hr>
+  <div class="container">
+    <div id="form">
+      <h4>Mês de referência</h4>
+      <select id="referencia" disabled>
+        <option value="">-</option>
+      </select>
+
+      <h4>Típo de veículo</h4>
+      <select id="tipo_veiculo" disabled>
+        <option value="">-</option>
+        <option value="1">🚗&nbsp;&nbsp;Carro</option>
+        <option value="2">🏍️&nbsp;&nbsp;Moto</option>
+        <option value="3">🚚&nbsp;&nbsp;Caminhão
+        </option>
+      </select>
+
+      <h4>Marca</h4>
+      <select id="marca" disabled>
+        <option value="">-</option>
+      </select>
+
+      <h4>Modelo</h4>
+      <select id="modelo" disabled>
+        <option value="">-</option>
+      </select>
+
+      <h4>Ano</h4>
+      <select id="ano" disabled>
+        <option value="">-</option>
+      </select>
+
+      <p>
+        <button type="button" id="search" disabled>Consultar</button>
+      </p>
+    </div>
+
+    <div id="resultado"></div>
+  </div>
+  <p>
+    <a href="https://github.com/wgenial"><small>Criado por WGenial</small></a>
+  </p>
+</body>
+
+</html>
