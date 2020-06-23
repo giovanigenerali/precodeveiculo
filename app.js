@@ -9,10 +9,42 @@ const modelo = document.getElementById("modelo");
 const ano = document.getElementById("ano");
 const consultar = document.getElementById("search");
 const resultado = document.getElementById("resultado");
+let referenciaHistorico = [];
+let chart = null;
+
+function generateLabelMonth(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1).substring(0, 2);
+}
+
+function generateLabelYear(string) {
+  return string.slice(2);
+}
+
+function generateReferenciaHistorico(data) {
+  const months = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
+  let years_months = new Map();
+
+  data.forEach(item => {
+    const [mes, ano] = item.Mes.replace(/\s/g, "").split("/");
+    const data = {
+      label: `${generateLabelMonth(mes)}/${generateLabelYear(ano)}`,
+      id: item.Codigo
+    };
+
+    years_months.set(ano, years_months.get(ano) ? [...years_months.get(ano), data] : [data]);
+  });
+
+  return Array.from(years_months).map(([key, value]) => {
+    value.sort((a, b) => months[a[0]] - months[b[0]]);
+    return { year: key, data: value };
+  });
+}
 
 async function loadReferencia() {
   try {
     const { data } = await axios.post("https://veiculos.fipe.org.br/api/veiculos/ConsultarTabelaDeReferencia");
+
+    referenciaHistorico = generateReferenciaHistorico(data);
 
     data.forEach(element => {
       const option = document.createElement("option");
@@ -23,6 +55,7 @@ async function loadReferencia() {
     });
 
     referencia.removeAttribute("disabled");
+
   } catch (err) {
     console.log(err);
   }
@@ -170,10 +203,137 @@ function renderVeiculo(data) {
         </tr>
       </tbody>
     </table>
+    ${referenciaHistorico && (
+      `
+        <hr>
+        <select id="historico">
+          <option value="">-</option>
+          ${referenciaHistorico.map((referencia) => `<option value="${referencia.year}">${referencia.year}</option>`)}
+        </select>
+        <canvas id="grafico" style="display: none; width: 100%"></canvas>
+      `
+    )}
   `;
 
   resultado.innerHTML = result;
   resultado.scrollIntoView({ behavior: "smooth" });
+
+  const historico = document.getElementById("historico");
+
+  historico.addEventListener("change", async (event) => {
+    if (event.target.value !== "") {
+      historico.setAttribute("disabled", true);
+      generateChartData(event.target.value)
+    }
+  })
+}
+
+async function generateChartData(year) {
+  const historico = document.getElementById("historico");
+  const { data } = referenciaHistorico.find(referencia => referencia.year === year);
+  const [anoModelo, codigoTipoCombustivel] = ano.value.split("-");
+  const dataChart = [];
+
+  if (chart) {
+    chart.destroy();
+  }
+
+  if (document.getElementById("sem_historico")) {
+    document.getElementById("sem_historico").remove();
+  }
+
+  await Promise.all(
+    data.map(async (item, idx) => {
+      const form = new FormData();
+      form.append('codigoTipoVeiculo', parseInt(tipoVeiculo.value, 10));
+      form.append('codigoMarca', parseInt(marca.value, 10));
+      form.append('codigoModelo', parseInt(modelo.value, 10));
+      form.append('ano', ano.value);
+      form.append('anoModelo', parseInt(anoModelo, 10));
+      form.append('codigoTipoCombustivel', parseInt(codigoTipoCombustivel, 10));
+      form.append('tipoConsulta', "tradicional");
+      form.append('codigoTabelaReferencia', item.id);
+
+      const { data } = await axios.post("https://veiculos.fipe.org.br/api/veiculos/ConsultarValorComTodosParametros", form);
+
+      if (data && data.Valor) {
+        dataChart.push({
+          order: idx,
+          label: item.label,
+          value: parseFloat(data.Valor.replace("R$", "").replace(".", "").replace(",", ".").replace(/\s/g, "")),
+          price: data.Valor,
+        });
+      }
+    })
+  );
+
+  dataChart.sort((a, b) => (a.order > b.order) ? 1 : ((b.order > a.order) ? -1 : 0));
+
+  historico.removeAttribute("disabled");
+
+  if (dataChart.length > 0) {
+    renderChart(dataChart);
+  } else {
+    const message = document.createElement("p");
+    message.id = "sem_historico";
+    message.innerHTML = 'Sem histório de preço para este ano.';
+
+    resultado.appendChild(message);
+  }
+}
+
+function renderChart(chartData) {
+  const grafico = document.getElementById("grafico");
+  const labelMonths = chartData.map(data => data.label).reverse();
+  const dataValues = chartData.map(data => data.value).reverse();
+  const color = "rgb(54, 162, 235)";
+
+  chart = new Chart(grafico, {
+    type: 'line',
+    data: {
+      labels: labelMonths,
+      datasets: [{
+        data: dataValues,
+        borderColor: color,
+        fill: false,
+        label: false,
+        pointBackgroundColor: color,
+        pointBorderColor: color,
+      }]
+    },
+    options: {
+      responsive: true,
+      tooltips: {
+        mode: 'index',
+        intersect: false,
+        callbacks: {
+          label: (value) => {
+            const label = value.yLabel.toString().split(/(?=(?:...)*$)/).join('.');
+            return `R$ ${label}`;
+          }
+        }
+      },
+      legend: {
+        display: false
+      },
+      scales: {
+        yAxes: [{
+          ticks: {
+            userCallback: (value) => {
+              const val = value.toString().split(/(?=(?:...)*$)/).join('.');
+              return `R$ ${val}`;
+            }
+          },
+        }]
+      },
+      hover: {
+        mode: 'nearest',
+        intersect: true
+      }
+    }
+  });
+
+  grafico.style.display = "";
 }
 
 document.addEventListener("DOMContentLoaded", () => {
