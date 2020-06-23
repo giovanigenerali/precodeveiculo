@@ -62,5 +62,6 @@ table tr td:first-child {
   background-size: contain;
   background-repeat: no-repeat;
   padding-left: 1.5rem;
-  width: auto;
+  width: 100vw;
+  height: 1rem;
 }
