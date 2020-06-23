@@ -340,10 +340,6 @@ function renderChart(chartData) {
   grafico.style.display = "";
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  loadReferencia();
-});
-
 referencia.addEventListener("change", (event) => {
   if (event.target.value !== "") {
     tipoVeiculo.removeAttribute("disabled");
@@ -427,4 +423,8 @@ ano.addEventListener("change", (event) => {
 
 consultar.addEventListener("click", () => {
   loadVeiculo();
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  loadReferencia();
 });
