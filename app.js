@@ -291,6 +291,7 @@ function renderChart(chartData) {
   const labelMonths = chartData.map(data => data.label).reverse();
   const dataValues = chartData.map(data => data.value).reverse();
   const color = "rgb(54, 162, 235)";
+  const colorHelper = Chart.helpers.color;
 
   chart = new Chart(grafico, {
     type: 'line',
@@ -299,8 +300,9 @@ function renderChart(chartData) {
       datasets: [{
         data: dataValues,
         borderColor: color,
-        fill: false,
         label: false,
+        fill: true,
+        backgroundColor: colorHelper(color).alpha(0.2).rgbString(),
         pointBackgroundColor: color,
         pointBorderColor: color,
       }]
