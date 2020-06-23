@@ -205,9 +205,9 @@ function renderVeiculo(data) {
     </table>
     ${referenciaHistorico && (
       `
-        <hr>
+        <br>
         <select id="historico">
-          <option value="">-</option>
+          <option value="">Escolha o ano para exibir a variação de preço.</option>
           ${referenciaHistorico.map((referencia) => `<option value="${referencia.year}">${referencia.year}</option>`)}
         </select>
         <canvas id="grafico" style="display: none; width: 100%"></canvas>
@@ -224,6 +224,10 @@ function renderVeiculo(data) {
     if (event.target.value !== "") {
       historico.setAttribute("disabled", true);
       generateChartData(event.target.value)
+    } else {
+      if (chart) {
+        chart.destroy();
+      }
     }
   })
 }
@@ -276,7 +280,7 @@ async function generateChartData(year) {
   } else {
     const message = document.createElement("p");
     message.id = "sem_historico";
-    message.innerHTML = 'Sem histório de preço para este ano.';
+    message.innerHTML = 'Não existe histório de preço para este ano.';
 
     resultado.appendChild(message);
   }
