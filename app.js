@@ -144,7 +144,7 @@ async function loadVeiculo() {
     form.append('codigoTipoCombustivel', parseInt(codigoTipoCombustivel, 10));
     form.append('tipoConsulta', "tradicional");
 
-    resultado.innerHTML = `<p>Carregando...</p>`;
+    resultado.innerHTML = "<p>Carregando...</p>";
     consultar.setAttribute("disabled", true);
 
     const { data } = await axios.post("https://veiculos.fipe.org.br/api/veiculos/ConsultarValorComTodosParametros", form);
