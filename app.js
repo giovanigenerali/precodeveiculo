@@ -118,7 +118,7 @@ async function loadAnos() {
 
     data.forEach(element => {
       const option = document.createElement("option");
-      option.text = element.Label;
+      option.text = element.Value.indexOf('32000') !== -1 ? 'Zero KM' : element.Label;
       option.value = element.Value;
 
       ano.add(option);
@@ -159,16 +159,18 @@ async function loadVeiculo() {
 }
 
 function renderVeiculo(data) {
+  console.log('data', data);
   const {
     MesReferencia,
     CodigoFipe,
     Marca,
     Modelo,
-    AnoModelo,
     Combustivel,
     DataConsulta,
     Valor
   } = data;
+
+  const AnoModelo = data.AnoModelo === 32000 ? 'Zero KM' : data.AnoModelo;
 
   const result = `
     <table width="100%" cellspacing="0" cellpadding="0" border="0">
@@ -190,8 +192,12 @@ function renderVeiculo(data) {
           <td>${Modelo}</td>
         </tr>
         <tr>
-          <td>Ano Modelo:</td>
-          <td>${AnoModelo} ${Combustivel}</td>
+          <td>Ano:</td>
+          <td>${AnoModelo}</td>
+        </tr>
+        <tr>
+          <td>Combustível:</td>
+          <td>${Combustivel}</td>
         </tr>
         <tr>
           <td>Data da consulta:</td>
