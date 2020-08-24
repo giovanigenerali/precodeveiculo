@@ -1,6 +1,7 @@
 /* Preço de Veículo - https://precodeveiculo.netlify.app
- * https://github.com/wgenial/precodeveiculo
- * Developed by WGenial - http://wgenial.com.br
+ * https://github.com/giovanigenerali/precodeveiculo
+ * Developed by Giovani Generali - https://github.com/giovanigenerali
+ */
  */
 const referencia = document.getElementById("referencia");
 const tipoVeiculo = document.getElementById("tipo_veiculo");
@@ -176,35 +177,35 @@ function renderVeiculo(data) {
     <table width="100%" cellspacing="0" cellpadding="0" border="0">
       <tbody>
         <tr>
-          <td>Mês de referência:</td>
+          <td>Mês de referência</td>
           <td>${MesReferencia}</td>
         </tr>
         <tr>
-          <td>Código Fipe:</td>
+          <td>Código FIPE</td>
           <td>${CodigoFipe}</td>
         </tr>
         <tr>
-          <td>Marca:</td>
+          <td>Marca</td>
           <td>${Marca}</td>
         </tr>
         <tr>
-          <td>Modelo:</td>
+          <td>Modelo</td>
           <td>${Modelo}</td>
         </tr>
         <tr>
-          <td>Ano:</td>
+          <td>Ano</td>
           <td>${AnoModelo}</td>
         </tr>
         <tr>
-          <td>Combustível:</td>
+          <td>Combustível</td>
           <td>${Combustivel}</td>
         </tr>
         <tr>
-          <td>Data da consulta:</td>
+          <td>Data da consulta</td>
           <td>${DataConsulta}</td>
         </tr>
         <tr>
-          <td>Preço Médio:</td>
+          <td>Preço Médio</td>
           <td>${Valor}</td>
         </tr>
       </tbody>

@@ -1,9 +1,10 @@
 /* Preço de Veículo - https://precodeveiculo.netlify.app
- * https://github.com/wgenial/precodeveiculo
- * Developed by WGenial - http://wgenial.com.br
+ * https://github.com/giovanigenerali/precodeveiculo
+ * Developed by Giovani Generali - https://github.com/giovanigenerali
  */
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif;
   margin: 1rem;
 }
 h4 {
@@ -12,7 +13,8 @@ h4 {
 p {
   margin: 0 0 1rem 0;
 }
-select, button {
+select,
+button {
   font-size: 1rem;
   margin: 0 0 1rem 0;
   padding: 0.5rem;
