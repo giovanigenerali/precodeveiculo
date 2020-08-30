@@ -50,7 +50,7 @@
             <option value="">-</option>
             <option value="1">🚗&nbsp;&nbsp;Carro</option>
             <option value="2">🏍️&nbsp;&nbsp;Moto</option>
-            <option value="3">🚚&nbsp;&nbsp;Caminhão </option>
+            <option value="3">🚚&nbsp;&nbsp;Caminhão</option>
           </select>
         </label>
 
@@ -93,8 +93,6 @@
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", () => {
           navigator.serviceWorker.register("./sw.js");
-          // .then((reg) => console.log("SW registred", reg.scope))
-          // .catch((err) => console.log("SW failure", err));
         });
       }
     </script>

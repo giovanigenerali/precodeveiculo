@@ -2,6 +2,7 @@
  * https://github.com/giovanigenerali/precodeveiculo
  * Developed by Giovani Generali - https://github.com/giovanigenerali
  */
+const fipeAPI = "https://veiculos.fipe.org.br/api/veiculos";
 const referencia = document.getElementById("referencia");
 const tipoVeiculo = document.getElementById("tipo_veiculo");
 const marca = document.getElementById("marca");
@@ -58,9 +59,7 @@ function generateReferenciaHistorico(data) {
 
 async function loadReferencia() {
   try {
-    const { data } = await axios.post(
-      "https://veiculos.fipe.org.br/api/veiculos/ConsultarTabelaDeReferencia"
-    );
+    const { data } = await axios.post(`${fipeAPI}/ConsultarTabelaDeReferencia`);
 
     referenciaHistorico = generateReferenciaHistorico(data);
 
@@ -84,10 +83,7 @@ async function loadMarcas() {
     form.append("codigoTabelaReferencia", parseInt(referencia.value, 10));
     form.append("codigoTipoVeiculo", parseInt(tipoVeiculo.value, 10));
 
-    const { data } = await axios.post(
-      "https://veiculos.fipe.org.br/api/veiculos/ConsultarMarcas",
-      form
-    );
+    const { data } = await axios.post(`${fipeAPI}/ConsultarMarcas`, form);
 
     data.forEach((element) => {
       const option = document.createElement("option");
@@ -112,10 +108,7 @@ async function loadModelos() {
 
     const {
       data: { Modelos: data },
-    } = await axios.post(
-      "https://veiculos.fipe.org.br/api/veiculos/ConsultarModelos",
-      form
-    );
+    } = await axios.post(`${fipeAPI}/ConsultarModelos`, form);
 
     data.forEach((element) => {
       const option = document.createElement("option");
@@ -139,10 +132,7 @@ async function loadAnos() {
     form.append("codigoMarca", parseInt(marca.value, 10));
     form.append("codigoModelo", parseInt(modelo.value, 10));
 
-    const { data } = await axios.post(
-      "https://veiculos.fipe.org.br/api/veiculos/ConsultarAnoModelo",
-      form
-    );
+    const { data } = await axios.post(`${fipeAPI}/ConsultarAnoModelo`, form);
 
     data.forEach((element) => {
       const option = document.createElement("option");
@@ -177,7 +167,7 @@ async function loadVeiculo() {
     consultar.setAttribute("disabled", true);
 
     const { data } = await axios.post(
-      "https://veiculos.fipe.org.br/api/veiculos/ConsultarValorComTodosParametros",
+      `${fipeAPI}/ConsultarValorComTodosParametros`,
       form
     );
 
@@ -302,7 +292,7 @@ async function generateChartData(year) {
       form.append("codigoTabelaReferencia", item.id);
 
       const { data } = await axios.post(
-        "https://veiculos.fipe.org.br/api/veiculos/ConsultarValorComTodosParametros",
+        `${fipeAPI}/ConsultarValorComTodosParametros`,
         form
       );
 
