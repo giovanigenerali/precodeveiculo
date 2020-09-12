@@ -4,6 +4,9 @@
 [![Tweet](https://img.shields.io/twitter/url?url=https://github.com/giovanigenerali/precodeveiculo)](https://twitter.com/intent/tweet?url=https://github.com/giovanigenerali/precodeveiculo&text=%F0%9F%9A%97%20Consultar%20pre%C3%A7os%20m%C3%A9dios%20de%20ve%C3%ADculos%20diretamente%20na%20FIPE.)
 [![GitHub license](https://img.shields.io/github/license/giovanigenerali/precodeveiculo.svg?t=1)](https://github.com/giovanigenerali/precodeveiculo/blob/master/LICENSE)
 
+
+App para consultar preços médios de veículos diretamente na FIPE.
+
 ## Demo
 
 [https://precodeveiculo.netlify.app](https://precodeveiculo.netlify.app)
