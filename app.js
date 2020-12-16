@@ -73,7 +73,7 @@ async function loadReferencia() {
 
     referencia.removeAttribute("disabled");
   } catch (err) {
-    console.log(err);
+    console.log("loadReferencia error", err);
   }
 }
 
@@ -95,7 +95,7 @@ async function loadMarcas() {
 
     marca.removeAttribute("disabled");
   } catch (err) {
-    console.log(err);
+    console.log("loadMarcas error", err);
   }
 }
 
@@ -120,7 +120,7 @@ async function loadModelos() {
 
     modelo.removeAttribute("disabled");
   } catch (err) {
-    console.log(err);
+    console.log("loadModelos error", err);
   }
 }
 
@@ -145,7 +145,7 @@ async function loadAnos() {
 
     ano.removeAttribute("disabled");
   } catch (err) {
-    console.log(err);
+    console.log("loadAnos error", err);
   }
 }
 
@@ -175,12 +175,11 @@ async function loadVeiculo() {
 
     consultar.removeAttribute("disabled");
   } catch (err) {
-    console.log(err);
+    console.log("loadVeiculo error", err);
   }
 }
 
 function renderVeiculo(data) {
-  console.log("data", data);
   const {
     MesReferencia,
     CodigoFipe,
@@ -236,10 +235,12 @@ function renderVeiculo(data) {
         <br>
         <select id="historico">
           <option value="">Escolha o ano para exibir a variação de preço.</option>
-          ${referenciaHistorico.map(
-            (referencia) =>
-              `<option value="${referencia.year}">${referencia.year}</option>`
-          )}
+          ${referenciaHistorico
+            .map(
+              (referencia) =>
+                `<option value="${referencia.year}">${referencia.year}</option>`
+            )
+            .join("")}
         </select>
         <canvas id="grafico" style="display: none; width: 100%"></canvas>
       `
@@ -297,15 +298,17 @@ async function generateChartData(year) {
       );
 
       if (data && data.Valor) {
+        const value = parseFloat(
+          data.Valor.replace("R$", "")
+            .replace(/\./g, "")
+            .replace(/\,/, ".")
+            .replace(/\s/g, "")
+        );
+
         dataChart.push({
           order: idx,
           label: item.label,
-          value: parseFloat(
-            data.Valor.replace("R$", "")
-              .replace(".", "")
-              .replace(",", ".")
-              .replace(/\s/g, "")
-          ),
+          value,
           price: data.Valor,
         });
       }
