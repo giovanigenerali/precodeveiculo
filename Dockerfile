@@ -1,5 +1,5 @@
-FROM nginx:alpine
+FROM nginx:alpine-slim
 
 COPY . /usr/share/nginx/html
 
-EXPOSE 80
+EXPOSE 3000
